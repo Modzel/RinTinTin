@@ -59,6 +59,7 @@ void PacketController::service(GetCommentsPacket packet) {
     for(unsigned int i = 0; i < responsePacket.size(); ++i) {
         sock->sendPackage(protocolParser->parsePacketOut(responsePacket[i]));
         sock->receivePackage(inputBuffor,513);
+        qDebug()<<"Nadeslany pakiet NEXT_SEND "<<inputBuffor<<'\n';
         try{
             protocolParser->parseNextData(inputBuffor);
         } catch(BadPackageException* exception) {
