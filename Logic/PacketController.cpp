@@ -2,6 +2,7 @@
 #include "../Exceptions/BadPackageException.h"
 #include <iostream>
 #include <vector>
+#include <QDebug>
 
 
 PacketController::PacketController(TcpSocket* sock) {
@@ -104,27 +105,35 @@ void PacketController::invokeService(char *inputBuffer) {
 		//NARAZIE ZOSTAWIAMY
 		break;
 	case ADD_USER:
+        qDebug()<<"Przychodzacy pakiet ADD_USER";
 		this->addUserOption(index);
 		break;
 	case CHECK_RESTAURANT:
+        qDebug()<<"Przychodzacy pakiet CHECK_RESTAURANT\n";
 		this->checkRestaurantOption(index);
 		break;
 	case GET_RESTAURANT:
+        qDebug()<<"Przychodzacy pakiet GET_RESTAURANT\n";
 		this->getRestaurantOption(index);
 		break;
 	case GET_COMMENTS:
+        qDebug()<<"Przychodzacy pakiet GET_COMMENTS\n";
 		this->getCommentsOption(index);
 		break;
 	case ADD_COMMENT:
+        qDebug()<<"Przychodzacy pakiet ADD_COMMENT\n";
 		this->addCommentOption(index);
 		break;
 	case ADD_RESTAURANT:
+        qDebug()<<"Przychodzacy pakiet ADD_RESTAURANT\n";
 		this->addRestaurantOption(index);
 		break;
 	case DELETE_COMMENT:
+        qDebug()<<"Przychodzacy pakiet DELETE_COMMENT\n";
 		this->deleteCommentOption(index);
 		break;
 	default:
+        qDebug()<<"DZIIIIWNE TOOOO\n";
 		break;
 	}
 }
