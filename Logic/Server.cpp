@@ -45,9 +45,10 @@ int Server::start() {
 	if (mainSocket->listenSocket() == 1) return 1;
 	TcpSocket* clientSocket;
 	while (true) {
+        qDebug()<<"d";
 		clientSocket = new TcpSocket(mainSocket->acceptSocket());
 		if( !clientSocket->checkIfInvalid() ) {
-
+            qDebug()<<"e";
 			ClientHandler* client = connectionPool->addClient(clientSocket);
 
             QThread thread;

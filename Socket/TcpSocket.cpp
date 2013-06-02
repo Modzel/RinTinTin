@@ -11,7 +11,7 @@ TcpSocket::TcpSocket(int port, int maxListeners) {
 #ifdef _WIN_32
 	this->sock = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP);
 #else
-    this->sock = socket(AF_INET,SOCK_STREAM,0);
+    this->sock = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP);
 #endif
     this->socketAdress.sin_family = AF_INET;
     this->socketAdress.sin_port = htons(port);
@@ -45,8 +45,7 @@ int TcpSocket::bindSocket() {
 		return 1;
     }
 #else
-    struct sockaddr_in saddr = this->socketAdress;
-    if ( bind(this->sock, (struct sockaddr*)&saddr, sizeof(saddr)) == -1) {
+    if ( bind(this->sock, (struct sockaddr*)&(this->socketAdress), sizeof(this->socketAdress)) == -1) {
         std::cout<<"Wystapil blad podczas bindowania adresu!\n";
         return 1;
     }
