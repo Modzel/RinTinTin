@@ -45,11 +45,14 @@ int Server::start() {
 	if (mainSocket->listenSocket() == 1) return 1;
 	TcpSocket* clientSocket;
     QThread* thread;
+    ClientHandler* client;
+
 	while (true) {
 		clientSocket = new TcpSocket(mainSocket->acceptSocket());
 		if( !clientSocket->checkIfInvalid() ) {
             qDebug()<<"Polaczenie";
-            ClientHandler* client = new ClientHandler(clientSocket);
+            thread = new QThread();
+            client = new ClientHandler(clientSocket);
 
             client->doSetup(*thread);
             client->moveToThread(thread);
