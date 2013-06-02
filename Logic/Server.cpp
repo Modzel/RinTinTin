@@ -44,19 +44,19 @@ int Server::start() {
 	if (mainSocket->bindSocket() == 1) return 1;
 	if (mainSocket->listenSocket() == 1) return 1;
 	TcpSocket* clientSocket;
+    QThread* thread;
 	while (true) {
         qDebug()<<"d";
 		clientSocket = new TcpSocket(mainSocket->acceptSocket());
 		if( !clientSocket->checkIfInvalid() ) {
             qDebug()<<"e";
+            thread = new QThread();
 			ClientHandler* client = connectionPool->addClient(clientSocket);
 
-            QThread thread;
+            client->doSetup(*thread);
+            client->moveToThread(thread);
 
-            client->doSetup(thread);
-            client->moveToThread(&thread);
-
-            thread.start();
+            thread->start();
 		}
 
 	}	
