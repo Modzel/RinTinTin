@@ -13,11 +13,11 @@
 #include <QThread>
 #include <QObject>
 #include <QDebug>
+#include <QSharedPointer>
 #include "../Socket/TcpSocket.h"
 
 Server::Server(int port) {
 
-qDebug()<< "dupa";	
 this->port = port;
 	this->maxClients = 1024;
 	this->connectionPool = new ConnectionPool();
@@ -49,8 +49,7 @@ int Server::start() {
 		clientSocket = new TcpSocket(mainSocket->acceptSocket());
 		if( !clientSocket->checkIfInvalid() ) {
             qDebug()<<"Polaczenie";
-            thread = new QThread();
-			ClientHandler* client = connectionPool->addClient(clientSocket);
+            ClientHandler* client = new ClientHandler(clientSocket);
 
             client->doSetup(*thread);
             client->moveToThread(thread);

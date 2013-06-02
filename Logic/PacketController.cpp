@@ -60,8 +60,7 @@ void PacketController::service(GetCommentsPacket packet) {
         sock->sendPackage(protocolParser->parsePacketOut(responsePacket[i]));
         sock->receivePackage(inputBuffor,513);
         try{
-            if( protocolParser->parseNextData(inputBuffor) == true )
-                continue;
+            protocolParser->parseNextData(inputBuffor);
         } catch(BadPackageException* exception) {
             exception->send();
             delete exception;

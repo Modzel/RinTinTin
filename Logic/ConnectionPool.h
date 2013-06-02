@@ -6,7 +6,7 @@
 class ConnectionPool
 {
 private: 
-	std::vector<ClientHandler*> clients;
+    std::vector<ClientHandler*> clients;
 public:
 	ConnectionPool(void);
 	~ConnectionPool(void);
