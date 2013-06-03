@@ -34,6 +34,24 @@ ResponseAddUserPacket DataAccessObject::addUser(AddUserPacket userToAdd) {
     QSqlQuery query;
     db->open();
 
+    query.prepare("SET NAMES utf8");
+
+    query.exec();
+
+    query.clear();
+
+    query.prepare("SET CHARACTER_SET utf8_polish_ci");
+
+    query.exec();
+
+    query.clear();
+
+    query.prepare("SET collation_connection = utf8_polish_ci");
+
+    query.exec();
+
+    query.clear();
+
     query.prepare("INSERT INTO `tin`.`uzytkownik` (`nazwa`, `haslo`, `sesionID`, `admin`, `login_time`) VALUES (?, ?, ?,?, ?);");
     QString haslo = userToAdd.password;
     QString nazwa = userToAdd.login;
