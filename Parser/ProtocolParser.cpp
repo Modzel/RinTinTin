@@ -332,7 +332,7 @@ void ProtocolParser::deencryption(char* data) {
     int key = 5;
 
     for(int i=0; i< strlen(data); ++i){
-        data[i] = data[i] + key;
+        data[i] = data[i] - key;
     }
 
 }
