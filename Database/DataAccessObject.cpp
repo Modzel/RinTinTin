@@ -10,8 +10,8 @@ DataAccessObject::DataAccessObject(void)
     QString login = "tin";
     QString password = "TYBv0kqRbnTF9XaE";
 
-    const QString connName = "Polaczenie" + ++connectionName;
-    db = new QSqlDatabase(  QSqlDatabase::addDatabase("QMYSQL", connName));
+    //const QString connName = "Polaczenie" + ++connectionName;
+    db = new QSqlDatabase(  QSqlDatabase::addDatabase("QMYSQL"));
 
     db->setHostName("tin.jatokor.net");
     db->setDatabaseName("tin");
