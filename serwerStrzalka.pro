@@ -24,7 +24,8 @@ SOURCES += main.cpp \
     Logic/ConnectionPool.cpp \
     Parser/ProtocolParser.cpp \
     Socket/TcpSocket.cpp \
-    Logic/ClientHandler.cpp
+    Logic/ClientHandler.cpp \
+    mythread.cpp
 
 HEADERS += \
     Database/DataAccessObject.h \
@@ -37,4 +38,5 @@ HEADERS += \
     Parser/ProtocolParser.h \
     Parser/PacketType.h \
     Socket/TcpSocket.h \
-    Logic/ClientHandler.h
+    Logic/ClientHandler.h \
+    mythread.h
