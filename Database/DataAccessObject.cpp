@@ -2,15 +2,19 @@
 #include <QString>
 #include <vector>
 #include "Logic/Server.h"
+#include <QTextCodec>
+
 
 int connectionName = 0;
 
 DataAccessObject::DataAccessObject(void)
 {
+
+    QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
+
     QString login = "tin";
     QString password = "TYBv0kqRbnTF9XaE";
 
-    //const QString connName = "Polaczenie" + ++connectionName;
     db = new QSqlDatabase(  QSqlDatabase::addDatabase("QMYSQL"));
 
     db->setHostName("tin.jatokor.net");
