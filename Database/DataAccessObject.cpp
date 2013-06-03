@@ -8,12 +8,12 @@ DataAccessObject::DataAccessObject(void)
     QString login = "tin";
     QString password = "TYBv0kqRbnTF9XaE";
 
-    db = QSqlDatabase::addDatabase("QMYSQL");
+    db = new QSqlDatabase( QSqlDatabase::addDatabase("QMYSQL"));
 
-    db.setHostName("tin.jatokor.net");
-    db.setDatabaseName("tin");
-    db.setUserName(login);
-    db.setPassword(password);
+    db->setHostName("tin.jatokor.net");
+    db->setDatabaseName("tin");
+    db->setUserName(login);
+    db->setPassword(password);
 
 
 }
@@ -21,15 +21,15 @@ DataAccessObject::DataAccessObject(void)
 
 DataAccessObject::~DataAccessObject(void)
 {
-
+    delete db;
 }
 
 ResponseAddUserPacket DataAccessObject::addUser(AddUserPacket userToAdd) {
-	ResponseAddUserPacket responsePacket;
+    ResponseAddUserPacket responsePacket;
     //TODO
 
     QSqlQuery query;
-    db.open();
+    db->open();
 
     query.prepare("INSERT INTO `tin`.`uzytkownik` (`nazwa`, `haslo`, `sesionID`, `admin`, `login_time`) VALUES (?, ?, ?,?, ?);");
     QString haslo = userToAdd.password;
@@ -46,15 +46,15 @@ ResponseAddUserPacket DataAccessObject::addUser(AddUserPacket userToAdd) {
 
     responsePacket.userId=query.lastInsertId().toInt();
 
-     db.close();
+     db->close();
 
 
 
-	return responsePacket;
+    return responsePacket;
 }
 
 ResponseCheckRestaurantPacket DataAccessObject::findNewestRestaurant() {
-	ResponseCheckRestaurantPacket responsePacket;
+    ResponseCheckRestaurantPacket responsePacket;
 
     GetRestaurantPacket packet;
     std::vector<ResponseGetRestaurantPacket> nowy = getRestaurant(packet);
@@ -62,14 +62,14 @@ ResponseCheckRestaurantPacket DataAccessObject::findNewestRestaurant() {
     responsePacket.globalRestaurantSize = nowy.size();
 
 
-	return responsePacket;
+    return responsePacket;
 }
 
 std::vector<ResponseGetRestaurantPacket> DataAccessObject::getRestaurant(GetRestaurantPacket packet) {
     //ResponseGetRestaurantPacket responsePacket;
 
     std::vector<ResponseGetRestaurantPacket> responsePacket;
-    db.open();
+    db->open();
     QSqlQuery query;
 
     query.prepare("SELECT * FROM restauracje");
@@ -90,19 +90,19 @@ std::vector<ResponseGetRestaurantPacket> DataAccessObject::getRestaurant(GetRest
 
 
 
-    db.close();
+    db->close();
 
 
 
 
-	return responsePacket;
+    return responsePacket;
 }
 
 std::vector<ResponseGetCommentsPacket> DataAccessObject::getComment(GetCommentsPacket packet) {
-	ResponseGetCommentsPacket responsePacket;
+    ResponseGetCommentsPacket responsePacket;
 
     std::vector<ResponseGetCommentsPacket> wynik;
-    db.open();
+    db->open();
     QSqlQuery query;
 
     if(packet.addedDate=="0")
@@ -147,17 +147,17 @@ std::vector<ResponseGetCommentsPacket> DataAccessObject::getComment(GetCommentsP
 
 
 
-    db.close();
+    db->close();
 
 
     return wynik;
 }
 
 ResponseAddCommentPacket DataAccessObject::addComment(AddCommentPacket packet) {
-	ResponseAddCommentPacket responsePacket;
+    ResponseAddCommentPacket responsePacket;
 
     QSqlQuery query;
-    db.open();
+    db->open();
 
     query.prepare("INSERT INTO `tin`.`komentarz` (`idRestauracje_fk`, `iduzytkownik_fk`, `tekst`, `data`) VALUES (?,?, ?,?);");
 
@@ -179,16 +179,16 @@ ResponseAddCommentPacket DataAccessObject::addComment(AddCommentPacket packet) {
     responsePacket.commentId=query.lastInsertId().toInt();
     int haha = query.lastInsertId().toInt();
     qDebug()<<"kakakakakak:  "<<haha<<endl;
-     db.close();
+     db->close();
 
-	return responsePacket;
+    return responsePacket;
 }
 
 ResponseAddRestaurantPacket DataAccessObject::addRestaurant(AddRestaurantPacket packet) {
-	ResponseAddRestaurantPacket responsePacket;
+    ResponseAddRestaurantPacket responsePacket;
 
     QSqlQuery query;
-    db.open();
+    db->open();
 
     query.prepare("INSERT INTO `tin`.`restauracje` (`nazwa`, `adres`, `typ`) VALUES (?, ?, ?);");
     QString nazwa = packet.restaurantName;
@@ -202,16 +202,16 @@ ResponseAddRestaurantPacket DataAccessObject::addRestaurant(AddRestaurantPacket 
 
     query.exec();
      responsePacket.restaurantId=query.lastInsertId().toInt();
-     db.close();
+     db->close();
 
-	return responsePacket;
+    return responsePacket;
 }
 
 ReponseDeleteCommentPacket DataAccessObject::deleteComment(DeleteCommentPacket packet) {
-	ReponseDeleteCommentPacket responsePacket;
+    ReponseDeleteCommentPacket responsePacket;
 
     QSqlQuery query;
-    db.open();
+    db->open();
 
     query.prepare("DELETE FROM `tin`.`komentarz` WHERE `idkomentarz`= ?;");
 
@@ -221,6 +221,15 @@ ReponseDeleteCommentPacket DataAccessObject::deleteComment(DeleteCommentPacket p
 
 
 
-    db.close();
-	return responsePacket;
+    db->close();
+    return responsePacket;
 }
+
+/*void DataAccessObject::close()
+{
+    QString connection;
+    connection = db->connectionName();
+    db->close();
+    db = QSqlDatabase();
+    db->removeDatabase(connection);
+}*/

@@ -5,7 +5,7 @@
 
 class DataAccessObject
 {
-    QSqlDatabase db;
+    QSqlDatabase* db;
     QString login;
     QString password;
 
