@@ -16,9 +16,10 @@ bool ConnectionPool::checkIfInvalid(int i) {
 }
 
 ClientHandler* ConnectionPool::addClient(TcpSocket* tcpsocket) {
-	ClientHandler* addedClient = new ClientHandler(tcpsocket);
+    ClientHandler* addedClient = new ClientHandler(tcpsocket);
 	clients.push_back(addedClient);
 	std::cout<<"DODANO DZIFFFKO!";
 
 	return addedClient;
 }
+

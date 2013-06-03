@@ -129,8 +129,6 @@ AddCommentPacket ProtocolParser::parseAddCommentPacket(int index) {
 	++index;
 
 	for(; this->data[index] != '\n'; ++index) {
-		if( this->data[index] == '\0' )
-			throw new BadPackageException();
         packet.text.append(this->data[index]);
 	}
 
