@@ -33,7 +33,7 @@ private:
     void sendNextPacket();
 
 public:
-    PacketController(TcpSocket* sock, DataAccessObject* dao);
+    PacketController(TcpSocket* sock);
 	~PacketController(void);
 
 	void service(AddUserPacket userPacket);

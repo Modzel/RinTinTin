@@ -77,10 +77,8 @@ int Server::start() {
 		if( !clientSocket->checkIfInvalid() ) {
             qDebug()<<"Polaczenie";
 
-            dao = new DataAccessObject();
-
-            client = new ClientHandler(clientSocket,dao);
-            MyThread* thread = new MyThread(client,dao);
+            client = new ClientHandler(clientSocket);
+            MyThread* thread = new MyThread(client);
 
             client->doSetup(*thread);
             client->moveToThread(thread);
