@@ -1,16 +1,13 @@
 #pragma once
 
-#include "ConnectionPool.h"
-#include "Database/DataAccessObject.h"s
+#include "Database/DataAccessObject.h"
+#include "Socket/TcpSocket.h"
 #include <vector>
 
 class Server
 {
 private:
 
-
-
-	ConnectionPool* connectionPool;
     DataAccessObject* dao;
 	int port;
 	int maxClients;

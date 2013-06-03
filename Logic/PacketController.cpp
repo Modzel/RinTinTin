@@ -85,9 +85,6 @@ void PacketController::invokeService(char *inputBuffer) {
 
 	switch (type)
 	{
-	case PONG:
-		//NARAZIE ZOSTAWIAMY
-		break;
 	case ADD_USER:
         qDebug()<<"Przychodzacy pakiet ADD_USER";
 		this->addUserOption(index);
@@ -117,11 +114,10 @@ void PacketController::invokeService(char *inputBuffer) {
 		this->deleteCommentOption(index);
 		break;
     case SEND_NEXT:
-        qDebug()<<"Next plzzzz";
+        qDebug()<<"Przychodzacy pakiet NEXT_SEND\n";
         this->sendNextPacket();
         break;
 	default:
-        qDebug()<<"DZIIIIWNE TOOOO\n";
 		break;
 	}
 }
@@ -143,7 +139,6 @@ void PacketController::sendNextPacket() {
             ++packetIterator;
         } else {
             sock->sendPackage(protocolParser->parsePacketEndOfData());
-
         }
     }
 }

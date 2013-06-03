@@ -21,7 +21,6 @@ SOURCES += main.cpp \
     Exceptions/BadPackageException.cpp \
     Logic/Server.cpp \
     Logic/PacketController.cpp \
-    Logic/ConnectionPool.cpp \
     Parser/ProtocolParser.cpp \
     Socket/TcpSocket.cpp \
     Logic/ClientHandler.cpp \
@@ -34,7 +33,6 @@ HEADERS += \
     Logic/Server.h \
     Logic/Packets.h \
     Logic/PacketController.h \
-    Logic/ConnectionPool.h \
     Parser/ProtocolParser.h \
     Parser/PacketType.h \
     Socket/TcpSocket.h \

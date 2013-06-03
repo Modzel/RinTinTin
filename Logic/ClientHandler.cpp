@@ -33,8 +33,6 @@ void ClientHandler::doSetup(QThread &cThread){
 }
 
 void ClientHandler::doWork() {
-    QString message = "01000\n";
-    char *messageChar = "Helo Modzel!";
     char inputBuffer[513];
     int ret;
     while (true) {
@@ -51,7 +49,6 @@ void ClientHandler::doWork() {
             break;
         }
 
-        std::cout<<inputBuffer;
         controller->invokeService(inputBuffer);
 
         memset(inputBuffer, ' ', 513);

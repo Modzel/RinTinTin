@@ -35,14 +35,12 @@ Server::Server(int port) {
 
 this->port = port;
 	this->maxClients = 1024;
-	this->connectionPool = new ConnectionPool();
     this->dao = new DataAccessObject();
 }
 
 
 Server::~Server(void)
 {
-	delete connectionPool;
     delete dao;
 }
 
