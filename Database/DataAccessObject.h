@@ -9,6 +9,8 @@ class DataAccessObject
     QString login;
     QString password;
 
+    void closeConn();
+
 public:
 	ResponseAddUserPacket addUser(AddUserPacket userToAdd);
     ResponseCheckRestaurantPacket findNewestRestaurant();

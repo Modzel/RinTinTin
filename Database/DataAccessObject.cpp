@@ -46,7 +46,7 @@ ResponseAddUserPacket DataAccessObject::addUser(AddUserPacket userToAdd) {
 
     responsePacket.userId=query.lastInsertId().toInt();
 
-     db->close();
+     db->closeConn();
 
 
 
@@ -90,7 +90,7 @@ std::vector<ResponseGetRestaurantPacket> DataAccessObject::getRestaurant(GetRest
 
 
 
-    db->close();
+    db->closeConn();
 
 
 
@@ -147,7 +147,7 @@ std::vector<ResponseGetCommentsPacket> DataAccessObject::getComment(GetCommentsP
 
 
 
-    db->close();
+    db->closeConn();
 
 
     return wynik;
@@ -179,7 +179,7 @@ ResponseAddCommentPacket DataAccessObject::addComment(AddCommentPacket packet) {
     responsePacket.commentId=query.lastInsertId().toInt();
     int haha = query.lastInsertId().toInt();
     qDebug()<<"kakakakakak:  "<<haha<<endl;
-     db->close();
+     db->closeConn();
 
     return responsePacket;
 }
@@ -202,7 +202,7 @@ ResponseAddRestaurantPacket DataAccessObject::addRestaurant(AddRestaurantPacket 
 
     query.exec();
      responsePacket.restaurantId=query.lastInsertId().toInt();
-     db->close();
+     db->closeConn();
 
     return responsePacket;
 }
@@ -221,15 +221,15 @@ ReponseDeleteCommentPacket DataAccessObject::deleteComment(DeleteCommentPacket p
 
 
 
-    db->close();
+    db->closeConn();
     return responsePacket;
 }
 
-/*void DataAccessObject::close()
+void DataAccessObject::closeConn()
 {
     QString connection;
     connection = db->connectionName();
     db->close();
-    db = QSqlDatabase();
+    //db = QSqlDatabase();
     db->removeDatabase(connection);
-}*/
+}
