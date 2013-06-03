@@ -130,7 +130,7 @@ void PacketController::sendNextPacket() {
     if(this->nextPacketToSend == 6) {
         //RESTAURANT
         if(this->packetIterator < this->responsePacketRestaurant.size()) {
-            sock->sendPackage(protocolParser->parsePacketOut(responsePacketComments[packetIterator]));
+            sock->sendPackage(protocolParser->parsePacketOut(responsePacketRestaurant[packetIterator]));
         }
 
         ++packetIterator;
