@@ -1,7 +1,8 @@
-#pragma comment(lib, "ws2_32.lib")
+
 
 #include "Server.h"
 #ifdef _WIN_32
+    #pragma comment(lib, "ws2_32.lib")
     #include <winsock2.h>
     #include <windows.h>
 #else
@@ -63,13 +64,13 @@ int Server::start() {
         sigIntHandler.sa_flags = 0;
         sigaction(SIGINT, &sigIntHandler, NULL);
     #endif
+
 	mainSocket = new TcpSocket(this->port,20);
     if (mainSocket->setSockOpt() == 1) return 1;
 	if (mainSocket->bindSocket() == 1) return 1;
 	if (mainSocket->listenSocket() == 1) return 1;
 	TcpSocket* clientSocket;
     ClientHandler* client;
-    DataAccessObject* dao;
 
 	while (true) {
 		clientSocket = new TcpSocket(mainSocket->acceptSocket());

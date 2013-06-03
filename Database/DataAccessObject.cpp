@@ -1,14 +1,17 @@
 #include "DataAccessObject.h"
 #include <QString>
 #include <vector>
+#include "Logic/Server.h"
 
+int connectionName = 0;
 
 DataAccessObject::DataAccessObject(void)
 {
     QString login = "tin";
     QString password = "TYBv0kqRbnTF9XaE";
 
-    db = new QSqlDatabase( QSqlDatabase::addDatabase("QMYSQL"));
+    const QString connName = "Polaczenie" + ++connectionName;
+    db = new QSqlDatabase(   QSqlDatabase::addDatabase("QMYSQL", connName));
 
     db->setHostName("tin.jatokor.net");
     db->setDatabaseName("tin");
