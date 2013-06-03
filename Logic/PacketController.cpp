@@ -131,16 +131,20 @@ void PacketController::sendNextPacket() {
         //RESTAURANT
         if(this->packetIterator < this->responsePacketRestaurant.size()) {
             sock->sendPackage(protocolParser->parsePacketOut(responsePacketRestaurant[packetIterator]));
+            ++packetIterator;
+         } else {
+            sock->sendPackage(protocolParser->parsePacketEndOfData());
         }
 
-        ++packetIterator;
-    } else {//this->nextPacketToSend == 14
+    } else {//this->nextPacketToSend == 10
         //COMMENTS
         if(this->packetIterator < this->responsePacketComments.size()) {
             sock->sendPackage(protocolParser->parsePacketOut(this->responsePacketComments[packetIterator]));
-        }
+            ++packetIterator;
+        } else {
+            sock->sendPackage(protocolParser->parsePacketEndOfData());
 
-        ++packetIterator;
+        }
     }
 }
 
