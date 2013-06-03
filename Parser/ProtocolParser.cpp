@@ -15,7 +15,7 @@ ProtocolParser::~ProtocolParser(void)
 
 PacketType ProtocolParser::readPacketType(int& index) {
     QString packetType;
-    this->deencryption(data);
+    //this->deencryption(data);
 
 	for(index = 0; this->data[index] != '\n'; ++index) {
 		if(this->data[index] < '0' || this->data[index] > '9')
@@ -210,7 +210,7 @@ QString ProtocolParser::parsePacketOut(ResponseAddCommentPacket packet) {
     response += intToStr(packet.commentId);
 	response += '\n';
 
-    this->encryption(response);
+    //this->encryption(response);
 	return response;
 }
 
@@ -222,7 +222,7 @@ QString ProtocolParser::parsePacketOut(ResponseAddRestaurantPacket packet) {
 	response += intToStr(packet.restaurantId);
 	response += '\n';
 
-    this->encryption(response);
+    //this->encryption(response);
 	return response;
 }
 
@@ -234,7 +234,7 @@ QString ProtocolParser::parsePacketOut(ResponseAddUserPacket packet) {
 	response += intToStr(packet.userId);
 	response += '\n';
 
-    this->encryption(response);
+    //this->encryption(response);
 	return response;
 }
 
@@ -246,7 +246,7 @@ QString ProtocolParser::parsePacketOut(ResponseCheckRestaurantPacket packet) {
 	response += intToStr(packet.globalLastRestaurantId);
 	response += '\n';
 
-    this->encryption(response);
+    //this->encryption(response);
 	return response;
 }
 
@@ -264,7 +264,7 @@ QString ProtocolParser::parsePacketOut(ResponseGetCommentsPacket packet) {
 	response += packet.date;
 	response += '\n';
 
-    this->encryption(response);
+    //this->encryption(response);
 	return response;
 }
 
@@ -285,7 +285,7 @@ QString ProtocolParser::parsePacketOut(ResponseGetRestaurantPacket packet) {
 	response += packet.restaurantType;
 	response += '\n';
 
-    this->encryption(response);
+    //this->encryption(response);
 	return response;
 }
 
@@ -297,7 +297,7 @@ QString ProtocolParser::parsePacketOut(PongPacket packet) {
 	response += intToStr(packet.userId);
 	response += '\n';
 
-    this->encryption(response);
+    //this->encryption(response);
 	return response;
 }
 
@@ -308,7 +308,7 @@ QString ProtocolParser::parsePacketOut(ReponseDeleteCommentPacket packet) {
 	(packet.ifDeleted == true ? response += "1" : response +="0" );
 	response += '\n';
 
-    this->encryption(response);
+    //this->encryption(response);
 	return response;
 }
 
@@ -317,7 +317,7 @@ QString ProtocolParser::parsePacketEndOfData() {
 	response +="9";
 	response += '\n';
 
-    this->encryption(response);
+    //this->encryption(response);
 	return response;
 }
 
