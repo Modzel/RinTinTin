@@ -11,7 +11,7 @@ DataAccessObject::DataAccessObject(void)
     QString password = "TYBv0kqRbnTF9XaE";
 
     const QString connName = "Polaczenie" + ++connectionName;
-    db = new QSqlDatabase(   QSqlDatabase::addDatabase("QMYSQL", connName));
+    db = new QSqlDatabase(  QSqlDatabase::addDatabase("QMYSQL", connName));
 
     db->setHostName("tin.jatokor.net");
     db->setDatabaseName("tin");
@@ -24,9 +24,6 @@ DataAccessObject::DataAccessObject(void)
 
 DataAccessObject::~DataAccessObject(void)
 {
-    QString connection;
-    connection = db->connectionName();
-    db->removeDatabase(connection);
     delete db;
 }
 
