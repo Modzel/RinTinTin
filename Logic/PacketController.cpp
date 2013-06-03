@@ -38,15 +38,7 @@ void PacketController::service(GetRestaurantPacket packet) {
 
     for(unsigned int i = 0; i < responsePacket.size(); ++i) {
         sock->sendPackage(protocolParser->parsePacketOut(responsePacket[i]));
-        int ret = sock->receivePackage(inputBuffor,513);
-        qDebug()<<"Zmienna ret: "<<ret<<" Nadeslany pakiet NEXT_SEND "<<inputBuffor<<'\n'<<"KONIEC PAKIETU";
-        try{
-            protocolParser->parseNextData(inputBuffor);
-        } catch(BadPackageException* exception) {
-            exception->send();
-            delete exception;
-            return;
-        }
+
         memset(inputBuffor, ' ', 513);
 	}
 
@@ -60,15 +52,7 @@ void PacketController::service(GetCommentsPacket packet) {
     responsePacket = dataAccessObject->getComment(packet);
     for(unsigned int i = 0; i < responsePacket.size(); ++i) {
         sock->sendPackage(protocolParser->parsePacketOut(responsePacket[i]));
-        sock->receivePackage(inputBuffor,513);
-        qDebug()<<"Nadeslany pakiet NEXT_SEND "<<inputBuffor<<'\n'<<"KONIEC PAKIETU";
-        try{
-            protocolParser->parseNextData(inputBuffor);
-        } catch(BadPackageException* exception) {
-            exception->send();
-            delete exception;
-            return;
-        }
+
         memset(inputBuffor, ' ', 513);
     }
 
