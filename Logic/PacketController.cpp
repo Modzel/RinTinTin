@@ -35,12 +35,12 @@ void PacketController::service(GetRestaurantPacket packet) {
     this->nextPacketToSend = 6;
 
     responsePacketRestaurant = dataAccessObject->getRestaurant(packet);
-    packetIterator = 0;
-    if (packetIterator < responsePacketRestaurant.size() )
-        sock->sendPackage(protocolParser->parsePacketOut(responsePacketRestaurant[packetIterator]));
+    packetIteratorRestaurant = 0;
+    if (packetIteratorRestaurant < responsePacketRestaurant.size() )
+        sock->sendPackage(protocolParser->parsePacketOut(responsePacketRestaurant[packetIteratorRestaurant]));
     else
         sock->sendPackage(protocolParser->parsePacketEndOfData());
-    ++packetIterator;
+    ++packetIteratorRestaurant;
 }
 
 void PacketController::service(GetCommentsPacket packet) {
@@ -48,12 +48,12 @@ void PacketController::service(GetCommentsPacket packet) {
     this->nextPacketToSend = 10;
 
     responsePacketComments = dataAccessObject->getComment(packet);
-    packetIterator = 0;
-    if (packetIterator < responsePacketComments.size() )
-        sock->sendPackage(protocolParser->parsePacketOut(responsePacketComments[packetIterator]));
+    packetIteratorComments = 0;
+    if (packetIteratorComments < responsePacketComments.size() )
+        sock->sendPackage(protocolParser->parsePacketOut(responsePacketComments[packetIteratorComments]));
     else
         sock->sendPackage(protocolParser->parsePacketEndOfData());
-    ++packetIterator;
+    ++packetIteratorComments;
 }
 
 void PacketController::service(AddCommentPacket packet) {
@@ -125,18 +125,18 @@ void PacketController::invokeService(char *inputBuffer) {
 void PacketController::sendNextPacket() {
     if(this->nextPacketToSend == 6) {
         //RESTAURANT
-        if(this->packetIterator < this->responsePacketRestaurant.size()) {
-            sock->sendPackage(protocolParser->parsePacketOut(responsePacketRestaurant[packetIterator]));
-            ++packetIterator;
+        if(this->packetIteratorComments < this->responsePacketRestaurant.size()) {
+            sock->sendPackage(protocolParser->parsePacketOut(responsePacketRestaurant[packetIteratorRestaurant]));
+            ++packetIteratorRestaurant;
          } else {
             sock->sendPackage(protocolParser->parsePacketEndOfData());
         }
 
     } else {//this->nextPacketToSend == 10
         //COMMENTS
-        if(this->packetIterator < this->responsePacketComments.size()) {
-            sock->sendPackage(protocolParser->parsePacketOut(this->responsePacketComments[packetIterator]));
-            ++packetIterator;
+        if(this->packetIteratorComments < this->responsePacketComments.size()) {
+            sock->sendPackage(protocolParser->parsePacketOut(this->responsePacketComments[packetIteratorComments]));
+            ++packetIteratorComments;
         } else {
             sock->sendPackage(protocolParser->parsePacketEndOfData());
         }

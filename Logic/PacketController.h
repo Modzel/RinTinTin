@@ -16,7 +16,8 @@ private:
 	DataAccessObject* dataAccessObject;
 
 
-    int packetIterator;
+    int packetIteratorRestaurant;
+    int packetIteratorComments;
 
     int nextPacketToSend;
 
