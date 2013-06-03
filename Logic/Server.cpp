@@ -5,6 +5,7 @@
     #include <winsock2.h>
     #include <windows.h>
 #else
+    #include <signal.h>
     #include <sys/socket.h>
 #endif
 
@@ -14,8 +15,19 @@
 #include <QObject>
 #include <QDebug>
 #include <QSharedPointer>
+#include <list>
 #include "../Socket/TcpSocket.h"
 #include "../mythread.h"
+
+#ifdef __unix__
+
+void my_handler(int s){
+    std::cout<<"Przechwycono sygnal"<<s<<std::endl;
+
+    exit(1);
+
+}
+#endif
 
 Server::Server(int port) {
 
@@ -41,15 +53,25 @@ int Server::start() {
 		return -1;
 	}
     #endif
+
+    #ifdef __unix__
+        struct sigaction sigIntHandler;
+
+        sigIntHandler.sa_handler = my_handler;
+        sigemptyset(&sigIntHandler.sa_mask);
+        sigIntHandler.sa_flags = 0;
+        sigaction(SIGINT, &sigIntHandler, NULL);
+    #endif
 	mainSocket = new TcpSocket(this->port,20);
+    if (mainSocket->setSockOpt() == 1) return 1;
 	if (mainSocket->bindSocket() == 1) return 1;
 	if (mainSocket->listenSocket() == 1) return 1;
 	TcpSocket* clientSocket;
-    QThread* thread;
     ClientHandler* client;
 
 	while (true) {
 		clientSocket = new TcpSocket(mainSocket->acceptSocket());
+
 		if( !clientSocket->checkIfInvalid() ) {
             qDebug()<<"Polaczenie";
 
@@ -63,6 +85,8 @@ int Server::start() {
 		}
 
 	}	
+
+
 	//reszta, obaczymy co tutaj bedzie
     #ifdef _WIN_32
         WSACleanup();

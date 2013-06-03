@@ -46,13 +46,26 @@ int TcpSocket::bindSocket() {
     }
 #else
     if ( bind(this->sock, (struct sockaddr*)&(this->socketAdress), sizeof(this->socketAdress)) == -1) {
-        std::cout<<"Wystapil blad podczas bindowania adresu!\n";
-        return 1;
+       std::cout << "Wystapil blad podczas bindowania adresu!\n";
+       return 1;
     }
 
 #endif
 
 	return 0;
+}
+
+int TcpSocket::setSockOpt() {
+#ifdef _WIN_32
+#else
+    int yep = 1;
+    if( setsockopt(this->sock,SOL_SOCKET,SO_REUSEADDR, &yep ,sizeof(this->sock)) == -1) {
+        std::cout<<"TERAZ TO JUZ MEGA BLAD!\n";
+        return 1;
+    }
+#endif
+
+    return 0;
 }
 
 int TcpSocket::listenSocket() {
@@ -103,4 +116,8 @@ bool TcpSocket::checkIfInvalid() {
 
 int TcpSocket::receivePackage(char* input, int size) {
 	return recv(this->sock, input, size, 0);
+}
+
+void TcpSocket::closeSocket() {
+    close(this->sock);
 }
