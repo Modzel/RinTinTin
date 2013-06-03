@@ -90,8 +90,6 @@ GetCommentsPacket ProtocolParser::parseGetCommentsPacket(int index) {
 	++index;
 
 	for(; this->data[index] != '\n'; ++index) {
-		if( this->data[index] == ' ' ) //TODO doprecyzowac jak bedzie wiadomo JAKI format ma data
-			throw new BadPackageException();
         packet.addedDate.append(this->data[index]);
 	}
 
@@ -122,8 +120,6 @@ AddCommentPacket ProtocolParser::parseAddCommentPacket(int index) {
 	++index;
 
 	for(; this->data[index] != '\n'; ++index) {
-		if( this->data[index] == ' ' ) //TODO doprecyzowac jak bedzie wiadomo JAKI format ma data
-			throw new BadPackageException();
         packet.date.append(this->data[index]);
 	}
 	++index;
@@ -140,8 +136,6 @@ AddRestaurantPacket ProtocolParser::parseAddRestaurantPacket(int index) {
 	AddRestaurantPacket packet;
 
 	for(; this->data[index] != '\n'; ++index) {
-		if( this->data[index] == ' ' ) //TODO doprecyzowac jak bedzie wiadomo JAKI format ma data
-			throw new BadPackageException();
         packet.restaurantName.append(this->data[index]);
 	}
 	++index;
