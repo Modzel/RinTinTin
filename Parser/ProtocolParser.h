@@ -41,6 +41,11 @@ private:
     QString parsePacketOut(PongPacket);
     QString parsePacketOut(ReponseDeleteCommentPacket);
     QString parsePacketEndOfData();
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    void deencryption(char* data);
+    void encryption(QString& data);
 public:
 	ProtocolParser(void);
 	~ProtocolParser(void);

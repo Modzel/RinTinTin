@@ -15,6 +15,8 @@ ProtocolParser::~ProtocolParser(void)
 
 PacketType ProtocolParser::readPacketType(int& index) {
     QString packetType;
+    this->deencryption(data);
+
 	for(index = 0; this->data[index] != '\n'; ++index) {
 		if(this->data[index] < '0' || this->data[index] > '9')
 			throw new BadPackageException();
@@ -208,6 +210,7 @@ QString ProtocolParser::parsePacketOut(ResponseAddCommentPacket packet) {
     response += intToStr(packet.commentId);
 	response += '\n';
 
+    this->encryption(response);
 	return response;
 }
 
@@ -219,6 +222,7 @@ QString ProtocolParser::parsePacketOut(ResponseAddRestaurantPacket packet) {
 	response += intToStr(packet.restaurantId);
 	response += '\n';
 
+    this->encryption(response);
 	return response;
 }
 
@@ -230,6 +234,7 @@ QString ProtocolParser::parsePacketOut(ResponseAddUserPacket packet) {
 	response += intToStr(packet.userId);
 	response += '\n';
 
+    this->encryption(response);
 	return response;
 }
 
@@ -241,6 +246,7 @@ QString ProtocolParser::parsePacketOut(ResponseCheckRestaurantPacket packet) {
 	response += intToStr(packet.globalLastRestaurantId);
 	response += '\n';
 
+    this->encryption(response);
 	return response;
 }
 
@@ -258,6 +264,7 @@ QString ProtocolParser::parsePacketOut(ResponseGetCommentsPacket packet) {
 	response += packet.date;
 	response += '\n';
 
+    this->encryption(response);
 	return response;
 }
 
@@ -278,6 +285,7 @@ QString ProtocolParser::parsePacketOut(ResponseGetRestaurantPacket packet) {
 	response += packet.restaurantType;
 	response += '\n';
 
+    this->encryption(response);
 	return response;
 }
 
@@ -289,6 +297,7 @@ QString ProtocolParser::parsePacketOut(PongPacket packet) {
 	response += intToStr(packet.userId);
 	response += '\n';
 
+    this->encryption(response);
 	return response;
 }
 
@@ -299,6 +308,7 @@ QString ProtocolParser::parsePacketOut(ReponseDeleteCommentPacket packet) {
 	(packet.ifDeleted == true ? response += "1" : response +="0" );
 	response += '\n';
 
+    this->encryption(response);
 	return response;
 }
 
@@ -306,6 +316,8 @@ QString ProtocolParser::parsePacketEndOfData() {
     QString response;
 	response +="9";
 	response += '\n';
+
+    this->encryption(response);
 	return response;
 }
 
@@ -314,4 +326,25 @@ bool ProtocolParser::parseNextData(char* inputBuffor) {
 		return true;
 	else 
 		throw new BadPackageException();
+}
+
+void ProtocolParser::deencryption(char* data) {
+    int key = 5;
+
+    for(int i=0; i< strlen(data); ++i){
+        data[i] = data[i] + key;
+    }
+
+}
+
+void ProtocolParser::encryption(QString& data) {
+    char* text = (char*) data.toStdString().c_str();
+    int key = 5;
+
+    for(int i=0; i< strlen(text); ++i){
+        text[i] = text[i] + key;
+    }
+
+    data = QString(text);
+
 }
