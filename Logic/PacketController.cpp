@@ -35,6 +35,7 @@ void PacketController::service(GetRestaurantPacket packet) {
 	char inputBuffor[512];
 
     responsePacket = dataAccessObject->getRestaurant(packet);
+
     for(unsigned int i = 0; i < responsePacket.size(); ++i) {
         sock->sendPackage(protocolParser->parsePacketOut(responsePacket[i]));
         sock->receivePackage(inputBuffor,513);
@@ -46,6 +47,7 @@ void PacketController::service(GetRestaurantPacket packet) {
             delete exception;
             return;
         }
+        memset(inputBuffor, ' ', 513);
 	}
 
     sock->sendPackage(protocolParser->parsePacketEndOfData());
@@ -67,6 +69,7 @@ void PacketController::service(GetCommentsPacket packet) {
             delete exception;
             return;
         }
+        memset(inputBuffor, ' ', 513);
     }
 
     sock->sendPackage(protocolParser->parsePacketEndOfData());

@@ -89,7 +89,8 @@ int TcpSocket::sendPackage(std::string message) {
 }
 
 int TcpSocket::sendPackage(QString message) {
-    return send(this->sock, message.toStdString().c_str(), message.length() + 1, 0);
+    //Powinno dzialac na polskich znakach
+    return send(this->sock, message.toUtf8(), message.toUtf8().length() + 1, 0);
 }
 
 bool TcpSocket::checkIfInvalid() {

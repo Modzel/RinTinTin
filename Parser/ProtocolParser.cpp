@@ -255,7 +255,7 @@ QString ProtocolParser::parsePacketOut(ResponseGetCommentsPacket packet) {
 	response += "11";
 	response += '\n';
 
-	response += packet.userLogin;
+    response += packet.userLogin;
 	response += '\n';
 
 	response += packet.date;
