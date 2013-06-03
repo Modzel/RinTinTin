@@ -3,16 +3,18 @@
 
 #include <QThread>
 #include "Logic/ClientHandler.h"
+#include "Database/DataAccessObject.h"
 
 class MyThread : public QThread
 {
     Q_OBJECT
 public:
-    explicit MyThread(ClientHandler* client,QObject *parent = 0);
+    explicit MyThread(ClientHandler* client,DataAccessObject* dao,QObject *parent = 0);
     ~MyThread();
     
 private:
     ClientHandler* client;
+    DataAccessObject* dao;
 signals:
     
 public slots:

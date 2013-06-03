@@ -3,6 +3,7 @@
 #include "../Socket/TcpSocket.h"
 #include "../Database/DataAccessObject.h"
 #include "../Parser/ProtocolParser.h"
+#include "../Database/DataAccessObject.h"
 
 class PacketController
 {
@@ -32,7 +33,7 @@ private:
     void sendNextPacket();
 
 public:
-	PacketController(TcpSocket* sock);
+    PacketController(TcpSocket* sock, DataAccessObject* dao);
 	~PacketController(void);
 
 	void service(AddUserPacket userPacket);

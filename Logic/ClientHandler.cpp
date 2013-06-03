@@ -7,11 +7,11 @@
 #include <QString>
 
 
-ClientHandler::ClientHandler(TcpSocket* tcpsocket, QObject *parent) :
+ClientHandler::ClientHandler(TcpSocket* tcpsocket,DataAccessObject* dao,  QObject *parent ) :
     QObject(parent)
 {
     this->tcpsocket = tcpsocket;
-    this->controller = new PacketController(tcpsocket);
+    this->controller = new PacketController(tcpsocket, dao);
 }
 
 ClientHandler::ClientHandler(QObject *parent) :

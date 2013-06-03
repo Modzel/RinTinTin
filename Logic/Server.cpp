@@ -18,6 +18,7 @@
 #include <list>
 #include "../Socket/TcpSocket.h"
 #include "../mythread.h"
+#include "Database/DataAccessObject.h"
 
 #ifdef __unix__
 
@@ -68,6 +69,7 @@ int Server::start() {
 	if (mainSocket->listenSocket() == 1) return 1;
 	TcpSocket* clientSocket;
     ClientHandler* client;
+    DataAccessObject* dao;
 
 	while (true) {
 		clientSocket = new TcpSocket(mainSocket->acceptSocket());
@@ -75,8 +77,10 @@ int Server::start() {
 		if( !clientSocket->checkIfInvalid() ) {
             qDebug()<<"Polaczenie";
 
-            client = new ClientHandler(clientSocket);
-            MyThread* thread = new MyThread(client);
+            dao = new DataAccessObject();
+
+            client = new ClientHandler(clientSocket,dao);
+            MyThread* thread = new MyThread(client,dao);
 
             client->doSetup(*thread);
             client->moveToThread(thread);
