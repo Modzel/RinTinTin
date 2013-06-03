@@ -5,9 +5,9 @@
 #include <QDebug>
 
 
-PacketController::PacketController(TcpSocket* sock) {
+PacketController::PacketController(TcpSocket* sock, DataAccessObject* dao) {
 	this->sock = sock;
-    this->dataAccessObject = new DataAccessObject();
+    this->dataAccessObject = dao;
 	this->protocolParser = new ProtocolParser();
 }
 

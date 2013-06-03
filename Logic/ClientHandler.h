@@ -17,7 +17,7 @@ private:
     PacketController* controller;
 public:
     explicit ClientHandler(QObject *parent = 0);
-    explicit ClientHandler(TcpSocket* tcpsocket, QObject *parent = 0);
+    explicit ClientHandler(TcpSocket* tcpsocket, DataAccessObject* dao, QObject *parent = 0);
 
     ~ClientHandler();
     void doSetup(QThread &cThread);
