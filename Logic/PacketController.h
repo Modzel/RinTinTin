@@ -7,9 +7,19 @@
 class PacketController
 {
 private:
+    std::vector<ResponseGetRestaurantPacket> responsePacketRestaurant;
+    std::vector<ResponseGetCommentsPacket> responsePacketComments;
+
 	ProtocolParser* protocolParser;
 	TcpSocket* sock;
 	DataAccessObject* dataAccessObject;
+
+
+    int packetIterator;
+
+    int nextPacketToSend;
+
+
 
 	void addUserOption(int index);
 	void checkRestaurantOption(int index);
@@ -17,7 +27,9 @@ private:
 	void getCommentsOption(int index);
 	void addCommentOption(int index);
 	void addRestaurantOption(int index);
-	void deleteCommentOption(int index);
+    void deleteCommentOption(int index);
+
+    void sendNextPacket();
 
 public:
 	PacketController(TcpSocket* sock);

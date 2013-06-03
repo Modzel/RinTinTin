@@ -11,7 +11,7 @@ ClientHandler::ClientHandler(TcpSocket* tcpsocket, QObject *parent) :
     QObject(parent)
 {
     this->tcpsocket = tcpsocket;
-    controller = new PacketController(tcpsocket);
+    this->controller = new PacketController(tcpsocket);
 }
 
 ClientHandler::ClientHandler(QObject *parent) :

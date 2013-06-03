@@ -31,32 +31,29 @@ void PacketController::service(CheckRestaurantPacket packet) {
 }
 
 void PacketController::service(GetRestaurantPacket packet) {
-    std::vector<ResponseGetRestaurantPacket> responsePacket;
-	char inputBuffor[512];
 
-    responsePacket = dataAccessObject->getRestaurant(packet);
+    this->nextPacketToSend = 6;
 
-    for(unsigned int i = 0; i < responsePacket.size(); ++i) {
-        sock->sendPackage(protocolParser->parsePacketOut(responsePacket[i]));
-
-        memset(inputBuffor, ' ', 513);
-	}
-
-    sock->sendPackage(protocolParser->parsePacketEndOfData());
+    responsePacketRestaurant = dataAccessObject->getRestaurant(packet);
+    packetIterator = 0;
+    if (packetIterator < responsePacketRestaurant.size() )
+        sock->sendPackage(protocolParser->parsePacketOut(responsePacketRestaurant[packetIterator]));
+    else
+        sock->sendPackage(protocolParser->parsePacketEndOfData());
+    ++packetIterator;
 }
 
 void PacketController::service(GetCommentsPacket packet) {
-    std::vector<ResponseGetCommentsPacket> responsePacket;
-	char inputBuffor[512];
 
-    responsePacket = dataAccessObject->getComment(packet);
-    for(unsigned int i = 0; i < responsePacket.size(); ++i) {
-        sock->sendPackage(protocolParser->parsePacketOut(responsePacket[i]));
+    this->nextPacketToSend = 10;
 
-        memset(inputBuffor, ' ', 513);
-    }
-
-    sock->sendPackage(protocolParser->parsePacketEndOfData());
+    responsePacketComments = dataAccessObject->getComment(packet);
+    packetIterator = 0;
+    if (packetIterator < responsePacketComments.size() )
+        sock->sendPackage(protocolParser->parsePacketOut(responsePacketComments[packetIterator]));
+    else
+        sock->sendPackage(protocolParser->parsePacketEndOfData());
+    ++packetIterator;
 }
 
 void PacketController::service(AddCommentPacket packet) {
@@ -119,10 +116,32 @@ void PacketController::invokeService(char *inputBuffer) {
         qDebug()<<"Przychodzacy pakiet DELETE_COMMENT\n";
 		this->deleteCommentOption(index);
 		break;
+    case SEND_NEXT:
+        qDebug()<<"Next plzzzz";
+        this->sendNextPacket();
+        break;
 	default:
         qDebug()<<"DZIIIIWNE TOOOO\n";
 		break;
 	}
+}
+
+void PacketController::sendNextPacket() {
+    if(this->nextPacketToSend == 6) {
+        //RESTAURANT
+        if(this->packetIterator < this->responsePacketRestaurant.size()) {
+            sock->sendPackage(protocolParser->parsePacketOut(responsePacketComments[packetIterator]));
+        }
+
+        ++packetIterator;
+    } else {//this->nextPacketToSend == 14
+        //COMMENTS
+        if(this->packetIterator < this->responsePacketComments.size()) {
+            sock->sendPackage(protocolParser->parsePacketOut(this->responsePacketComments[packetIterator]));
+        }
+
+        ++packetIterator;
+    }
 }
 
 void PacketController::addUserOption(int index) {

@@ -2,6 +2,7 @@
 #include <vector>
 #include "ClientHandler.h"
 #include "../Socket/TcpSocket.h"
+#include <QThread>
 
 class ConnectionPool
 {
@@ -12,6 +13,7 @@ public:
 	~ConnectionPool(void);
 	bool checkIfInvalid(int i);
     int findFreeSocket();
-	ClientHandler* addClient(TcpSocket* tcpsocket);
+    ClientHandler* addClient(TcpSocket* tcpsocket);
+    void deleteClient(ClientHandler* client);
 };
 

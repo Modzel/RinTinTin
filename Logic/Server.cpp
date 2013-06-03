@@ -15,6 +15,7 @@
 #include <QDebug>
 #include <QSharedPointer>
 #include "../Socket/TcpSocket.h"
+#include "../mythread.h"
 
 Server::Server(int port) {
 
@@ -51,8 +52,9 @@ int Server::start() {
 		clientSocket = new TcpSocket(mainSocket->acceptSocket());
 		if( !clientSocket->checkIfInvalid() ) {
             qDebug()<<"Polaczenie";
-            thread = new QThread();
+
             client = new ClientHandler(clientSocket);
+            MyThread* thread = new MyThread(client);
 
             client->doSetup(*thread);
             client->moveToThread(thread);
