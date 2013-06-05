@@ -7,7 +7,7 @@
 #include <QString>
 
 
-TcpSocket::TcpSocket(int port, int maxListeners) {
+TcpSocket::TcpSocket(int port, int maxListeners,int time) {
 #ifdef _WIN_32
 	this->sock = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP);
 #else
@@ -18,6 +18,11 @@ TcpSocket::TcpSocket(int port, int maxListeners) {
     this->socketAdress.sin_addr.s_addr = htonl(INADDR_ANY);
 	this->maxSocketListeners = maxListeners;
 
+    this->time.tv_sec = time;
+    this->time.tv_usec = 0;
+
+    FD_ZERO(&(this->rfds));
+    FD_SET(0,&(this->rfds));
 }
 
 #ifdef _WIN_32
@@ -123,4 +128,5 @@ void TcpSocket::closeSocket() {
 }
 
 int TcpSocket::selectSocket() {
+    return select(1,&(this->rfds),NULL,NULL,&(this->time));
 }

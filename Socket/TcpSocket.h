@@ -5,8 +5,10 @@
 #else
     #include <sys/socket.h>
     #include <sys/types.h>
-    #include<netdb.h>
-    #include<netinet/in.h>
+    #include <netdb.h>
+    #include <netinet/in.h>
+    #include <sys/select.h>
+    #include <sys/time.h>
 #endif
 #include <string>
 #include <QString>
@@ -23,6 +25,10 @@ private:
 #else
     int sock;
     struct sockaddr_in socketAdress;
+
+    struct timeval time;
+    fd_set rfds;
+
 #endif
 
 	int maxSocketListeners;
@@ -30,7 +36,7 @@ private:
 	
 
 public:
-	TcpSocket(int port, int maxListeners);
+    TcpSocket(int port, int maxListeners, int time);
 	TcpSocket();
 	~TcpSocket(void);
 

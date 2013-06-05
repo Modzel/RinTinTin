@@ -65,17 +65,17 @@ int Server::start() {
         sigaction(SIGINT, &sigIntHandler, NULL);
     #endif
 
-	mainSocket = new TcpSocket(this->port,20);
+    mainSocket = new TcpSocket(this->port,20,60);
     if (mainSocket->setSockOpt() == 1) return 1;
 	if (mainSocket->bindSocket() == 1) return 1;
 	if (mainSocket->listenSocket() == 1) return 1;
 	TcpSocket* clientSocket;
     ClientHandler* client;
 
-	while (true) {
-		clientSocket = new TcpSocket(mainSocket->acceptSocket());
-
-		if( !clientSocket->checkIfInvalid() ) {
+    while (true) {
+        if (mainSocket->selectSocket() ) {
+        //if( !clientSocket->checkIfInvalid() ) {
+            clientSocket = new TcpSocket(mainSocket->acceptSocket());
             qDebug()<<"Polaczenie";
 
             client = new ClientHandler(clientSocket, dao);
@@ -85,7 +85,10 @@ int Server::start() {
             client->moveToThread(thread);
 
             thread->start();
-		}
+
+
+
+        }
 
 	}	
 
