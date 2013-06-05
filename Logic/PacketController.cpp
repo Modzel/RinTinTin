@@ -36,7 +36,7 @@ void PacketController::service(GetRestaurantPacket packet) {
     this->nextPacketToSend = 6;
 
     responsePacketRestaurant = dataAccessObject->getRestaurant(packet);
-    std::std::cout<<"Rozmia wektora: "<<responsePacketRestaurant.size();
+
     packetIteratorRestaurant = 0;
     if (packetIteratorRestaurant < responsePacketRestaurant.size() ) {
         sock->sendPackage(protocolParser->parsePacketOut(responsePacketRestaurant[packetIteratorRestaurant]));
