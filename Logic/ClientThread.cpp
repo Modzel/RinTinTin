@@ -42,6 +42,7 @@ void ClientThread::run() {
                 } else {//ret == 0
                     //time(&timeout);
                     controller->sendPing();
+                    break;
                 }
             }
          //} else {
@@ -51,7 +52,7 @@ void ClientThread::run() {
         // }
     }
 
-
+    this->tcpsocket->closeSocket();
 }
 
 ClientThread::~ClientThread() {
