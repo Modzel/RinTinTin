@@ -1,4 +1,5 @@
 #include "ClientThread.h"
+#include <iostream>
 
 ClientThread::ClientThread() :
     QRunnable()
