@@ -92,6 +92,7 @@ void PacketController::invokeService(char *inputBuffer) {
 	switch (type)
 	{
     case PONG:
+        qDebug()<<"Przychodzacy pakiet PONG";
         this->isTimeout = false;
         break;
 	case ADD_USER:
@@ -127,6 +128,7 @@ void PacketController::invokeService(char *inputBuffer) {
         this->sendNextPacket();
         break;
 	default:
+        qDebug()<<"DZIWNE TO";
 		break;
 	}
 }
