@@ -71,9 +71,11 @@ int Server::start() {
 	if (mainSocket->listenSocket() == 1) return 1;
 	TcpSocket* clientSocket;
     ClientHandler* client;
+    int ret;
 
     while (true) {
-        if (mainSocket->selectSocket() ) {
+        if ((ret = mainSocket->selectSocket() ) > 0) {
+            //PRZYJALEM STRZALEK
         //if( !clientSocket->checkIfInvalid() ) {
             clientSocket = new TcpSocket(mainSocket->acceptSocket());
             qDebug()<<"Polaczenie";
@@ -88,6 +90,8 @@ int Server::start() {
 
 
 
+        } else {
+            std::cout<<"NIE DZIALA";
         }
 
 	}	
