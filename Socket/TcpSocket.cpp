@@ -134,6 +134,9 @@ int TcpSocket::selectSocket() {
     return select((this->sock)+1,&(this->rfds),NULL,NULL,&(this->time));
 }
 
-void TcpSocket::setTime(int newTime) {
+void TcpSocket::set(int newTime) {
     this->time.tv_sec = newTime;
+
+    FD_ZERO(&(this->rfds));
+    FD_SET(this->sock,&(this->rfds));
 }

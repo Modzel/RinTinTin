@@ -78,7 +78,7 @@ int Server::start() {
             //PRZYJALEM STRZALEK
         //if( !clientSocket->checkIfInvalid() ) {
             clientSocket = new TcpSocket(mainSocket->acceptSocket());
-            clientSocket->setTime(120);
+            clientSocket->set(120);
             qDebug()<<"Polaczenie";
 
 
