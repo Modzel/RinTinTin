@@ -39,7 +39,12 @@ void ClientThread::run() {
                     //time(&timeout);
                     controller->sendPing();
 
-             }
+             } else {
+                if(ret == -1) {
+                    this->tcpsocket->closeSocket();
+                    break;
+                }
+            }
          //} else {
          //   time_t now = time(NULL);
          //   if(difftime(now,timeout) > 60)
@@ -47,7 +52,7 @@ void ClientThread::run() {
         // }
     }
 
-    this->tcpsocket->closeSocket();
+
 }
 
 ClientThread::~ClientThread() {
