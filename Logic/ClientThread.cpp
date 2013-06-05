@@ -25,19 +25,20 @@ void ClientThread::run() {
 
     while (true) {
         //if(controller->getTimeout() == false) {
+        std::cout<<"Niby jestem";
             if((ret = this->tcpsocket->selectSocket()) > 0 ) {
                 this->tcpsocket->receivePackage(inputBuffer,513);
 
-
+                std::cout<<"Niby nie";
                 controller->invokeService(inputBuffer);
 
                 memset(inputBuffer, ' ', 513);
 
-                 } else {
+             } else {
                     //time(&timeout);
                     controller->sendPing();
 
-                }
+             }
          //} else {
          //   time_t now = time(NULL);
          //   if(difftime(now,timeout) > 60)
