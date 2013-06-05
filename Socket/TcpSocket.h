@@ -43,9 +43,9 @@ public:
 	int bindSocket();
 	int listenSocket();
 	bool checkIfInvalid();
-
     void closeSocket();
     int setSockOpt();
+    int selectSocket();
 
 #ifdef _WIN_32
 	SOCKET acceptSocket();

@@ -36,11 +36,14 @@ void PacketController::service(GetRestaurantPacket packet) {
 
     responsePacketRestaurant = dataAccessObject->getRestaurant(packet);
     packetIteratorRestaurant = 0;
-    if (packetIteratorRestaurant < responsePacketRestaurant.size() )
+    if (packetIteratorRestaurant < responsePacketRestaurant.size() ) {
         sock->sendPackage(protocolParser->parsePacketOut(responsePacketRestaurant[packetIteratorRestaurant]));
-    else
+        ++packetIteratorRestaurant;
+    }
+    else {
         sock->sendPackage(protocolParser->parsePacketEndOfData());
-    ++packetIteratorRestaurant;
+    }
+
 }
 
 void PacketController::service(GetCommentsPacket packet) {
@@ -49,11 +52,13 @@ void PacketController::service(GetCommentsPacket packet) {
 
     responsePacketComments = dataAccessObject->getComment(packet);
     packetIteratorComments = 0;
-    if (packetIteratorComments < responsePacketComments.size() )
+    if (packetIteratorComments < responsePacketComments.size() ) {
         sock->sendPackage(protocolParser->parsePacketOut(responsePacketComments[packetIteratorComments]));
-    else
+        ++packetIteratorComments;
+    }
+    else {
         sock->sendPackage(protocolParser->parsePacketEndOfData());
-    ++packetIteratorComments;
+    }
 }
 
 void PacketController::service(AddCommentPacket packet) {
@@ -130,6 +135,7 @@ void PacketController::sendNextPacket() {
             ++packetIteratorRestaurant;
          } else {
             sock->sendPackage(protocolParser->parsePacketEndOfData());
+            packetIteratorRestaurant = 0;
         }
 
     } else {//this->nextPacketToSend == 10
@@ -139,6 +145,7 @@ void PacketController::sendNextPacket() {
             ++packetIteratorComments;
         } else {
             sock->sendPackage(protocolParser->parsePacketEndOfData());
+            packetIteratorComments = 0;
         }
     }
 }

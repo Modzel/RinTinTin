@@ -121,3 +121,6 @@ int TcpSocket::receivePackage(char* input, int size) {
 void TcpSocket::closeSocket() {
     close(this->sock);
 }
+
+int TcpSocket::selectSocket() {
+}
