@@ -46,6 +46,8 @@ void ClientThread::run() {
          //       break;
         // }
     }
+
+    this->tcpsocket->closeSocket();
 }
 
 ClientThread::~ClientThread() {
