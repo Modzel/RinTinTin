@@ -36,13 +36,12 @@ void ClientThread::run() {
                 memset(inputBuffer, ' ', 513);
 
              } else {
-                    //time(&timeout);
-                    controller->sendPing();
-
-             } else {
                 if(ret == -1) {
                     this->tcpsocket->closeSocket();
                     break;
+                } else {//ret == 0
+                    //time(&timeout);
+                    controller->sendPing();
                 }
             }
          //} else {
