@@ -289,9 +289,9 @@ QString ProtocolParser::parsePacketOut(ResponseGetRestaurantPacket packet) {
 	return response;
 }
 
-QString ProtocolParser::parsePacketOut(PongPacket packet) {
+QString ProtocolParser::parsePacketOut(PingPacket packet) {
     QString response;
-	response += "1";
+    response += "0";
 	response += '\n';
 
 	response += intToStr(packet.userId);
@@ -319,6 +319,14 @@ QString ProtocolParser::parsePacketEndOfData() {
 
     //this->encryption(response);
 	return response;
+}
+
+QString ProtocolParser::parsePingPacket() {
+    QString response;
+    response += "1";
+    response += '\n';
+
+    return response;
 }
 
 bool ProtocolParser::parseNextData(char* inputBuffor) {

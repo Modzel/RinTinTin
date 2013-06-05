@@ -108,7 +108,8 @@ int TcpSocket::sendPackage(std::string message) {
 
 int TcpSocket::sendPackage(QString message) {
     //Powinno dzialac na polskich znakach
-    return send(this->sock, message.toUtf8(), message.toUtf8().length() + 1, 0);
+    //return send(this->sock, message.toUtf8(), message.toUtf8().length() + 1, 0);
+    return write(this->sock, message.toUtf8(), message.toUtf8().length());
 }
 
 bool TcpSocket::checkIfInvalid() {
@@ -120,7 +121,9 @@ bool TcpSocket::checkIfInvalid() {
 }
 
 int TcpSocket::receivePackage(char* input, int size) {
-	return recv(this->sock, input, size, 0);
+    //return recv(this->sock, input, size, 0);
+    return read(this->sock,input,size);
+
 }
 
 void TcpSocket::closeSocket() {
@@ -128,5 +131,9 @@ void TcpSocket::closeSocket() {
 }
 
 int TcpSocket::selectSocket() {
-    return select(1,&(this->rfds),NULL,NULL,&(this->time));
+    return select((this->sock)+1,&(this->rfds),NULL,NULL,&(this->time));
+}
+
+void TcpSocket::setTime(int newTime) {
+    this->time.tv_sec = newTime;
 }

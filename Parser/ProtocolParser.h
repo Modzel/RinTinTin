@@ -40,7 +40,9 @@ private:
     QString parsePacketOut(ResponseGetRestaurantPacket);
     QString parsePacketOut(PongPacket);
     QString parsePacketOut(ReponseDeleteCommentPacket);
+    QString parsePacketOut(PingPacket packet);
     QString parsePacketEndOfData();
+    QString parsePingPacket();
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 

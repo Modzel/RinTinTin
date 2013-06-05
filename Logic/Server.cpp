@@ -18,8 +18,8 @@
 #include <QSharedPointer>
 #include <list>
 #include "../Socket/TcpSocket.h"
-#include "../mythread.h"
 #include "Database/DataAccessObject.h"
+#include "ClientThread.h"
 
 #ifdef __unix__
 
@@ -70,28 +70,25 @@ int Server::start() {
 	if (mainSocket->bindSocket() == 1) return 1;
 	if (mainSocket->listenSocket() == 1) return 1;
 	TcpSocket* clientSocket;
-    ClientHandler* client;
-    int ret;
+    ClientThread* client;
+    int ret = 0;
 
     while (true) {
         if ((ret = mainSocket->selectSocket() ) > 0) {
             //PRZYJALEM STRZALEK
         //if( !clientSocket->checkIfInvalid() ) {
             clientSocket = new TcpSocket(mainSocket->acceptSocket());
+            clientSocket->setTime(120);
             qDebug()<<"Polaczenie";
 
-            client = new ClientHandler(clientSocket, dao);
-            MyThread* thread = new MyThread(client);
 
-            client->doSetup(*thread);
-            client->moveToThread(thread);
+            client = new ClientThread(clientSocket, dao);
 
-            thread->start();
+
+            threadPool.start(client);
 
 
 
-        } else {
-            std::cout<<"NIE DZIALA";
         }
 
 	}	

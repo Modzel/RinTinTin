@@ -15,6 +15,7 @@ private:
 	TcpSocket* sock;
 	DataAccessObject* dataAccessObject;
 
+    bool isTimeout;
 
     int packetIteratorRestaurant;
     int packetIteratorComments;
@@ -44,7 +45,12 @@ public:
 	void service(AddCommentPacket packet);
 	void service(AddRestaurantPacket packet);
 	void service(DeleteCommentPacket packet);
+    void sendPing();
 
 	void invokeService(char* input);
+
+    bool getTimeout();
+
+    void setTimeout();
 };
 

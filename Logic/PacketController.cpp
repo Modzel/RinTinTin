@@ -9,6 +9,7 @@ PacketController::PacketController(TcpSocket* sock, DataAccessObject* dao) {
 	this->sock = sock;
     this->dataAccessObject = dao;
 	this->protocolParser = new ProtocolParser();
+    this->isTimeout = false;
 }
 
 
@@ -90,6 +91,9 @@ void PacketController::invokeService(char *inputBuffer) {
 
 	switch (type)
 	{
+    case PONG:
+        this->isTimeout = false;
+        break;
 	case ADD_USER:
         qDebug()<<"Przychodzacy pakiet ADD_USER";
 		this->addUserOption(index);
@@ -240,4 +244,16 @@ void PacketController::deleteCommentOption(int index) {
 	}
 
 	this->service(packet);
+}
+
+void PacketController::sendPing() {
+    sock->sendPackage(this->protocolParser->parsePingPacket());
+}
+
+bool PacketController::getTimeout() {
+    return this->isTimeout;
+}
+
+void PacketController::setTimeout() {
+    this->isTimeout = true;
 }

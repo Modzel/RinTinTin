@@ -63,5 +63,6 @@ public:
 
 	int sendPackage(std::string message);
     int sendPackage(QString message);
+    void setTime(int newTime);
 };
 
