@@ -22,7 +22,7 @@ TcpSocket::TcpSocket(int port, int maxListeners,int time) {
     this->time.tv_usec = 0;
 
     FD_ZERO(&(this->rfds));
-    FD_SET(0,&(this->rfds));
+    FD_SET(this->sock,&(this->rfds));
 }
 
 #ifdef _WIN_32
