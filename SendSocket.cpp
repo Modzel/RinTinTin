@@ -11,4 +11,5 @@ SendSocket::SendSocket(int sock, QByteArray inputBuffer, int size) : QRunnable()
 
 void SendSocket::run() {
     send(this->sock,inputBuffer,size,0);
+    std::cout<<"Wyslano";
 }
