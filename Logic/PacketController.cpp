@@ -41,19 +41,21 @@ void PacketController::service(GetRestaurantPacket packet) {
 
     responsePacketRestaurant = dataAccessObject->getRestaurant(packet);
 
+    mutexRestaurant.lock();
     packetIteratorRestaurant = 0;
     if (packetIteratorRestaurant < responsePacketRestaurant.size() ) {
+
         mutex.lock();
         sock->sendPackage(protocolParser->parsePacketOut(responsePacketRestaurant[packetIteratorRestaurant]));
         mutex.unlock();
         ++packetIteratorRestaurant;
     }
     else {
-        for(int i = 0; i < 2; ++i) {
-            mutex.lock();
-            sock->sendPackage(protocolParser->parsePacketEndOfData());
-            mutex.unlock();
-        }
+        mutex.lock();
+        sock->sendPackage(protocolParser->parsePacketEndOfData());
+        mutex.unlock();
+        packetIteratorRestaurant = 0;
+        mutexRestaurant.unlock();
     }
 
 }
@@ -63,15 +65,21 @@ void PacketController::service(GetCommentsPacket packet) {
     this->nextPacketToSend = 10;
 
     responsePacketComments = dataAccessObject->getComment(packet);
+
+    mutexComment.lock();
     packetIteratorComments = 0;
+
     if (packetIteratorComments < responsePacketComments.size() ) {
-        mutex.lock();
+         mutex.lock();
         sock->sendPackage(protocolParser->parsePacketOut(responsePacketComments[packetIteratorComments]));
         mutex.unlock();
         ++packetIteratorComments;
     }
     else {
+        mutex.lock();
         sock->sendPackage(protocolParser->parsePacketEndOfData());
+        mutex.unlock();
+        mutexComment.unlock();
     }
 }
 
@@ -167,6 +175,8 @@ void PacketController::sendNextPacket() {
             sock->sendPackage(protocolParser->parsePacketEndOfData());
             mutex.unlock();
             packetIteratorRestaurant = 0;
+            mutexComment.unlock();
+
         }
 
     } else {//this->nextPacketToSend == 10
@@ -182,6 +192,7 @@ void PacketController::sendNextPacket() {
             sock->sendPackage(protocolParser->parsePacketEndOfData());
             mutex.unlock();
             packetIteratorComments = 0;
+            mutexComment.unlock();
 
         }
     }

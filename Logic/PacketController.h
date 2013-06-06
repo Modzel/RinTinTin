@@ -24,7 +24,8 @@ private:
     int nextPacketToSend;
 
     QMutex mutex;
-
+    QMutex mutexRestaurant;
+    QMutex mutexComment;
 
 
 	void addUserOption(int index);
