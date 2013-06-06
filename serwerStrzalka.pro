@@ -23,7 +23,8 @@ SOURCES += main.cpp \
     Logic/PacketController.cpp \
     Parser/ProtocolParser.cpp \
     Socket/TcpSocket.cpp \
-    Logic/ClientThread.cpp
+    Logic/ClientThread.cpp \
+    SendSocket.cpp
 
 HEADERS += \
     Database/DataAccessObject.h \
@@ -35,4 +36,5 @@ HEADERS += \
     Parser/ProtocolParser.h \
     Parser/PacketType.h \
     Socket/TcpSocket.h \
-    Logic/ClientThread.h
+    Logic/ClientThread.h \
+    SendSocket.h
