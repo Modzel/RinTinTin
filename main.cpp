@@ -10,9 +10,9 @@ int maxUsers = 1024;
 
 int main(int argc, char *argv[]) {
 
-    QCoreApplication a(argc, argv);
-
     QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
+
+    QCoreApplication a(argc, argv);
 
     QThreadPool::globalInstance()->setMaxThreadCount(maxUsers);
 

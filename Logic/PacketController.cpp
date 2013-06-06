@@ -145,13 +145,13 @@ void PacketController::sendNextPacket() {
             sock->sendPackage(protocolParser->parsePacketOut(responsePacketRestaurant[packetIteratorRestaurant]));
             ++packetIteratorRestaurant;
          } else {
-            std::cout<<"WPIERDALAM SIE\n";
             sock->sendPackage(protocolParser->parsePacketEndOfData());
             packetIteratorRestaurant = 0;
         }
 
     } else {//this->nextPacketToSend == 10
         //COMMENTS
+        std::cout<<"WIELKOSC TABLICY: "<<this->responsePacketComments.size()<<"Iterator: "<<packetIteratorComments<<std::endl;
         if(this->packetIteratorComments < this->responsePacketComments.size()) {
             sock->sendPackage(protocolParser->parsePacketOut(this->responsePacketComments[packetIteratorComments]));
             ++packetIteratorComments;
