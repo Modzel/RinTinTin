@@ -9,7 +9,7 @@ class Server
 {
 private:
 
-    QThreadPool threadPool;
+    //QThreadPool threadPool;
 
     DataAccessObject* dao;
 	int port;

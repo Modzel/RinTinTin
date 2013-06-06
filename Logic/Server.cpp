@@ -85,9 +85,14 @@ int Server::start() {
             client = new ClientThread(clientSocket, dao);
 
 
-            threadPool.start(client);
+            QThreadPool::globalInstance()->start(client);
+            //threadPool.start(client);
 
 
+
+        } else {
+            std::cout<<"TO TUTAJ"<<std::endl;
+            sleep(10);
 
         }
 

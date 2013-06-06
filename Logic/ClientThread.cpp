@@ -23,13 +23,18 @@ ClientThread::ClientThread(TcpSocket* tcpsocket,DataAccessObject* dao ) :
 void ClientThread::run() {
     char inputBuffer[513];
     int ret;
+    int ret2;
+    bool goOut = false;
 
-    while (true) {
-        //if(controller->getTimeout() == false) {
-        std::cout<<"Niby jestem";
+    while (!goOut) {
             if((ret = this->tcpsocket->selectSocket()) > 0 ) {
-                this->tcpsocket->receivePackage(inputBuffer,513);
+                ret2 = this->tcpsocket->receivePackage(inputBuffer,513);
+                if(ret2 == 0) {
+                    goOut = true;
+                    this->tcpsocket->closeSocket();
+                    break;
 
+                }
                 std::cout<<"Niby nie";
                 controller->invokeService(inputBuffer);
 
@@ -37,12 +42,17 @@ void ClientThread::run() {
 
              } else {
                 if(ret == -1) {
+                    std::cout<<"TUTAJ";
                     this->tcpsocket->closeSocket();
+                    goOut = true;
                     break;
                 } else {//ret == 0
                     //time(&timeout);
-                    controller->sendPing();
+                    //controller->sendPing();
+                    this->tcpsocket->closeSocket();
+                    goOut = true;
                     break;
+
                 }
             }
          //} else {
@@ -52,7 +62,6 @@ void ClientThread::run() {
         // }
     }
 
-    this->tcpsocket->closeSocket();
 }
 
 ClientThread::~ClientThread() {

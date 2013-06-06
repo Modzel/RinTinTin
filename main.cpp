@@ -11,6 +11,8 @@ int main(int argc, char *argv[]) {
     QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
     QCoreApplication a(argc, argv);
 
+    QThreadPool::globalInstance()->setMaxThreadCount(50);
+
     Server(port).start();
     return a.exec();
 }
