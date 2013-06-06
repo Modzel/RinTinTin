@@ -5,6 +5,8 @@
 #include "TcpSocket.h"
 #include <iostream>
 #include <QString>
+#include "../SendSocket.h"
+#include <QThreadPool>
 
 
 TcpSocket::TcpSocket(int port, int maxListeners,int time) {
@@ -108,8 +110,12 @@ int TcpSocket::sendPackage(std::string message) {
 
 int TcpSocket::sendPackage(QString message) {
     //Powinno dzialac na polskich znakach
-    return send(this->sock, message.toUtf8(), message.toUtf8().length() + 1, 0);
+    //return send(this->sock, message.toUtf8(), message.toUtf8().length() + 1, 0);
     //return write(this->sock, message.toUtf8(), message.toUtf8().length());
+
+    SendSocket* messageThread = new SendSocket(this->sock, message.toUtf8(), message.toUtf8().length() + 1);
+
+    QThreadPool::globalInstance()->start(messageThread);
 }
 
 bool TcpSocket::checkIfInvalid() {
