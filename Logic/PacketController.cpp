@@ -145,6 +145,7 @@ void PacketController::sendNextPacket() {
             sock->sendPackage(protocolParser->parsePacketOut(responsePacketRestaurant[packetIteratorRestaurant]));
             ++packetIteratorRestaurant;
          } else {
+            std::cout<<"WPIERDALAM SIE\n";
             sock->sendPackage(protocolParser->parsePacketEndOfData());
             packetIteratorRestaurant = 0;
         }
