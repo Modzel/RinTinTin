@@ -285,6 +285,7 @@ QString ProtocolParser::parsePacketOut(ResponseGetRestaurantPacket packet) {
 	response += packet.restaurantType;
 	response += '\n';
 
+    std::cout<<"Wyslano RESPONSEGETRESTAURANT"<<std::endl;
     //this->encryption(response);
 	return response;
 }
