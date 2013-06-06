@@ -65,7 +65,7 @@ int Server::start() {
         sigaction(SIGINT, &sigIntHandler, NULL);
     #endif
 
-    mainSocket = new TcpSocket(this->port,20,NULL);
+    mainSocket = new TcpSocket(this->port,20,120);
     if (mainSocket->setSockOpt() == 1) return 1;
 	if (mainSocket->bindSocket() == 1) return 1;
 	if (mainSocket->listenSocket() == 1) return 1;
@@ -87,7 +87,7 @@ int Server::start() {
 
             QThreadPool::globalInstance()->start(client);
 
-        }
+            }
     }
 
 
