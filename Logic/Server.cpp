@@ -74,11 +74,8 @@ int Server::start() {
     int ret = 0;
 
     while (true) {
-        if ((ret = mainSocket->selectSocket() ) > 0) {
-            //PRZYJALEM STRZALEK
-        //if( !clientSocket->checkIfInvalid() ) {
-            int sock = mainSocket->acceptSocket();
-            if (sock > 0){
+           int sock = mainSocket->acceptSocket();
+           if (sock > 0){
                     clientSocket = new TcpSocket(sock);
                     clientSocket->set(120);
                     qDebug()<<"Polaczenie";
@@ -88,8 +85,7 @@ int Server::start() {
 
 
                     QThreadPool::globalInstance()->start(client);
-                }
-            }
+           }
     }
 
 
