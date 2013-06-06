@@ -77,16 +77,18 @@ int Server::start() {
         if ((ret = mainSocket->selectSocket() ) > 0) {
             //PRZYJALEM STRZALEK
         //if( !clientSocket->checkIfInvalid() ) {
-            clientSocket = new TcpSocket(mainSocket->acceptSocket());
-            clientSocket->set(120);
-            qDebug()<<"Polaczenie";
+            int sock = mainSocket->acceptSocket();
+            if (sock > 0 && !clientSocket->checkIfInvalid()){
+                    clientSocket = new TcpSocket(sock);
+                    clientSocket->set(120);
+                    qDebug()<<"Polaczenie";
 
 
-            client = new ClientThread(clientSocket, dao);
+                    client = new ClientThread(clientSocket, dao);
 
 
-            QThreadPool::globalInstance()->start(client);
-
+                    QThreadPool::globalInstance()->start(client);
+                }
             }
     }
 
