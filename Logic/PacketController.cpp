@@ -139,7 +139,9 @@ void PacketController::invokeService(char *inputBuffer) {
 void PacketController::sendNextPacket() {
     if(this->nextPacketToSend == 6) {
         //RESTAURANT
+        std::cout<<"WIELKOSC TABLICY: "<<this->responsePacketRestaurant.size()<<"Iterator: "<<packetIteratorRestaurant<<std::endl;
         if(this->packetIteratorRestaurant < this->responsePacketRestaurant.size()) {
+
             sock->sendPackage(protocolParser->parsePacketOut(responsePacketRestaurant[packetIteratorRestaurant]));
             ++packetIteratorRestaurant;
          } else {
