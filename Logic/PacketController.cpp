@@ -156,10 +156,9 @@ void PacketController::sendNextPacket() {
             sock->sendPackage(protocolParser->parsePacketOut(this->responsePacketComments[packetIteratorComments]));
             ++packetIteratorComments;
         } else {
-            for(int i = 0; i< 2; ++i) {
-                sock->sendPackage(protocolParser->parsePacketEndOfData());
-            }
+            sock->sendPackage(protocolParser->parsePacketEndOfData());
             packetIteratorComments = 0;
+
         }
     }
 }
