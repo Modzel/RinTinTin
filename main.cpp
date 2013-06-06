@@ -16,10 +16,10 @@ int main(int argc, char *argv[]) {
 
     QThreadPool::globalInstance()->setMaxThreadCount(maxUsers);
 
-    if(argv[1] == NULL){
+    //if(argv[1] == NULL){
         Server(port).start();
-    } else {
-        Server(atoi(argv[1])).start();
-    }
+    //} else {
+    //    Server(atoi(argv[1])).start();
+    //}
     return a.exec();
 }
