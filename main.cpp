@@ -6,13 +6,20 @@
 #include <string>
 #include <QTextCodec>
 int port = 10001;
+int maxUsers = 1024;
 
 int main(int argc, char *argv[]) {
-    QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
+
     QCoreApplication a(argc, argv);
 
-    QThreadPool::globalInstance()->setMaxThreadCount(50);
+    QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
 
-    Server(port).start();
+    QThreadPool::globalInstance()->setMaxThreadCount(maxUsers);
+
+    if(argv[1] == NULL){
+        Server(port).start();
+    } else {
+        Server(QString(argv[0]).toInt()).start();
+    }
     return a.exec();
 }
