@@ -74,8 +74,9 @@ int Server::start() {
     int ret = 0;
 
     while (true) {
-           int sock = mainSocket->acceptSocket();
-           if (sock > 0){
+           if( mainSocket->selectSocket() > 0 ) {
+                int sock = mainSocket->acceptSocket();
+                if (sock > 0) {
                     clientSocket = new TcpSocket(sock);
                     clientSocket->set(120);
                     qDebug()<<"Polaczenie";
@@ -85,7 +86,10 @@ int Server::start() {
 
 
                     QThreadPool::globalInstance()->start(client);
-           }
+                } else {
+
+                }
+            }
     }
 
 

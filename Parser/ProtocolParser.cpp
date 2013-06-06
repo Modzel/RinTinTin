@@ -315,8 +315,10 @@ QString ProtocolParser::parsePacketOut(ReponseDeleteCommentPacket packet) {
 
 QString ProtocolParser::parsePacketEndOfData() {
     QString response;
-    response +='9';
+    response +="9";
 	response += '\n';
+    response +="sth";
+    response += '\n';
 
     std::cout<<"Wyslano END_OF_DATA";
     //this->encryption(response);
