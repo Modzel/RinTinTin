@@ -19,7 +19,7 @@ int main(int argc, char *argv[]) {
     if(argv[1] == NULL){
         Server(port).start();
     } else {
-        Server(QString(argv[0]).toInt()).start();
+        Server(atoi(argv[1])).start();
     }
     return a.exec();
 }
