@@ -8,6 +8,18 @@
 #include "../SendSocket.h"
 #include <QThreadPool>
 
+TcpSocket::TcpSocket(int port, int maxListeners) {
+    this->sock = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP);
+    this->socketAdress.sin_family = AF_INET;
+    this->socketAdress.sin_port = htons(port);
+    this->socketAdress.sin_addr.s_addr = htonl(INADDR_ANY);
+    this->maxSocketListeners = maxListeners;
+
+    this->isTime = false;
+
+    FD_ZERO(&(this->rfds));
+    FD_SET(this->sock,&(this->rfds));
+}
 
 TcpSocket::TcpSocket(int port, int maxListeners,int time) {
 #ifdef _WIN_32
@@ -20,6 +32,7 @@ TcpSocket::TcpSocket(int port, int maxListeners,int time) {
     this->socketAdress.sin_addr.s_addr = htonl(INADDR_ANY);
 	this->maxSocketListeners = maxListeners;
 
+    this->isTime = true;
     this->time.tv_sec = time;
     this->time.tv_usec = 0;
 
@@ -137,7 +150,11 @@ void TcpSocket::closeSocket() {
 }
 
 int TcpSocket::selectSocket() {
-    return select((this->sock)+1,&(this->rfds),NULL,NULL,&(this->time));
+    if(!isTime) {
+        return select((this->sock)+1,&(this->rfds),NULL,NULL,NULL);
+    } else {
+        return select((this->sock)+1,&(this->rfds),NULL,NULL,&(this->time));
+    }
 }
 
 void TcpSocket::set(int newTime) {

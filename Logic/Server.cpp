@@ -65,7 +65,7 @@ int Server::start() {
         sigaction(SIGINT, &sigIntHandler, NULL);
     #endif
 
-    mainSocket = new TcpSocket(this->port,20,120);
+    mainSocket = new TcpSocket(this->port,20);
     if (mainSocket->setSockOpt() == 1) return 1;
 	if (mainSocket->bindSocket() == 1) return 1;
 	if (mainSocket->listenSocket() == 1) return 1;
@@ -78,7 +78,7 @@ int Server::start() {
             //PRZYJALEM STRZALEK
         //if( !clientSocket->checkIfInvalid() ) {
             int sock = mainSocket->acceptSocket();
-            if (sock > 0 && !clientSocket->checkIfInvalid()){
+            if (sock > 0){
                     clientSocket = new TcpSocket(sock);
                     clientSocket->set(120);
                     qDebug()<<"Polaczenie";

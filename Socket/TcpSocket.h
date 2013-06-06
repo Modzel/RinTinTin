@@ -26,6 +26,7 @@ private:
     int sock;
     struct sockaddr_in socketAdress;
 
+    bool isTime;
     struct timeval time;
     fd_set rfds;
 
@@ -37,6 +38,7 @@ private:
 
 public:
     TcpSocket(int port, int maxListeners, int time);
+    TcpSocket(int port, int maxListeners);
 	TcpSocket();
 	~TcpSocket(void);
 
