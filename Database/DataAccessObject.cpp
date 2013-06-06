@@ -5,7 +5,6 @@
 #include <QTextCodec>
 
 
-int connectionName = 0;
 
 DataAccessObject::DataAccessObject(void)
 {

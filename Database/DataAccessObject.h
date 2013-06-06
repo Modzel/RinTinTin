@@ -2,6 +2,7 @@
 #include "../Logic/Packets.h"
 #include <QtSql>
 #include <vector>
+#include <QMutex>
 
 class DataAccessObject
 {
@@ -9,6 +10,7 @@ class DataAccessObject
     QSqlDatabase* db;
     QString login;
     QString password;
+    QMutex mutex;
 
 public:
 	ResponseAddUserPacket addUser(AddUserPacket userToAdd);

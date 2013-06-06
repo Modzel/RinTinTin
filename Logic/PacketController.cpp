@@ -21,14 +21,18 @@ PacketController::~PacketController(void) {
 void PacketController::service(AddUserPacket userPacket) {
     ResponseAddUserPacket responsePacket = dataAccessObject->addUser(userPacket);
 
+    mutex.lock();
 	sock->sendPackage(protocolParser->parsePacketOut(responsePacket));
+    mutex.unlock();
 
 }
 
 void PacketController::service(CheckRestaurantPacket packet) {
     ResponseCheckRestaurantPacket responsePacket = dataAccessObject->findNewestRestaurant();
 
+    mutex.lock();
 	sock->sendPackage(protocolParser->parsePacketOut(responsePacket));
+    mutex.unlock();
 }
 
 void PacketController::service(GetRestaurantPacket packet) {
@@ -39,12 +43,16 @@ void PacketController::service(GetRestaurantPacket packet) {
 
     packetIteratorRestaurant = 0;
     if (packetIteratorRestaurant < responsePacketRestaurant.size() ) {
+        mutex.lock();
         sock->sendPackage(protocolParser->parsePacketOut(responsePacketRestaurant[packetIteratorRestaurant]));
+        mutex.unlock();
         ++packetIteratorRestaurant;
     }
     else {
         for(int i = 0; i < 2; ++i) {
+            mutex.lock();
             sock->sendPackage(protocolParser->parsePacketEndOfData());
+            mutex.unlock();
         }
     }
 
@@ -57,7 +65,9 @@ void PacketController::service(GetCommentsPacket packet) {
     responsePacketComments = dataAccessObject->getComment(packet);
     packetIteratorComments = 0;
     if (packetIteratorComments < responsePacketComments.size() ) {
+        mutex.lock();
         sock->sendPackage(protocolParser->parsePacketOut(responsePacketComments[packetIteratorComments]));
+        mutex.unlock();
         ++packetIteratorComments;
     }
     else {
@@ -68,17 +78,23 @@ void PacketController::service(GetCommentsPacket packet) {
 void PacketController::service(AddCommentPacket packet) {
     ResponseAddCommentPacket responsePacket = dataAccessObject->addComment(packet);
 
+    mutex.lock();
 	sock->sendPackage(protocolParser->parsePacketOut(responsePacket));
+    mutex.unlock();
 }
 void PacketController::service(AddRestaurantPacket packet) {
     ResponseAddRestaurantPacket responsePacket = dataAccessObject->addRestaurant(packet);
 
+    mutex.lock();
 	sock->sendPackage(protocolParser->parsePacketOut(responsePacket));
+    mutex.unlock();
 }
 void PacketController::service(DeleteCommentPacket packet) {
     ReponseDeleteCommentPacket responsePacket = dataAccessObject->deleteComment(packet);
 
+    mutex.lock();
 	sock->sendPackage(protocolParser->parsePacketOut(responsePacket));
+    mutex.unlock();
 }
 
 void PacketController::invokeService(char *inputBuffer) {
@@ -142,10 +158,14 @@ void PacketController::sendNextPacket() {
         std::cout<<"WIELKOSC TABLICY: "<<this->responsePacketRestaurant.size()<<"Iterator: "<<packetIteratorRestaurant<<std::endl;
         if(this->packetIteratorRestaurant < this->responsePacketRestaurant.size()) {
 
+            mutex.lock();
             sock->sendPackage(protocolParser->parsePacketOut(responsePacketRestaurant[packetIteratorRestaurant]));
+            mutex.unlock();
             ++packetIteratorRestaurant;
          } else {
+            mutex.lock();
             sock->sendPackage(protocolParser->parsePacketEndOfData());
+            mutex.unlock();
             packetIteratorRestaurant = 0;
         }
 
@@ -153,10 +173,14 @@ void PacketController::sendNextPacket() {
         //COMMENTS
         std::cout<<"WIELKOSC TABLICY: "<<this->responsePacketComments.size()<<"Iterator: "<<packetIteratorComments<<std::endl;
         if(this->packetIteratorComments < this->responsePacketComments.size()) {
+            mutex.lock();
             sock->sendPackage(protocolParser->parsePacketOut(this->responsePacketComments[packetIteratorComments]));
+            mutex.unlock();
             ++packetIteratorComments;
         } else {
+            mutex.lock();
             sock->sendPackage(protocolParser->parsePacketEndOfData());
+            mutex.unlock();
             packetIteratorComments = 0;
 
         }

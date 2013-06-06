@@ -1,4 +1,5 @@
 #pragma once
+#include <QMutex>
 #include "Packets.h"
 #include "../Socket/TcpSocket.h"
 #include "../Database/DataAccessObject.h"
@@ -21,6 +22,8 @@ private:
     int packetIteratorComments;
 
     int nextPacketToSend;
+
+    QMutex mutex;
 
 
 
